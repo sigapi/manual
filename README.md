@@ -1,6 +1,6 @@
-# sigapi::api
+# sigapi::manual
 
-Esse módulo implementa um servidor de serviços utilizando [Spring Boot](https://projects.spring.io/spring-boot/), [Spring Security](https://projects.spring.io/spring-security/) e [Spring Security OAuth](https://projects.spring.io/spring-security-oauth/), com Token JWT. A integração com o [SIGA](https://www.sigacentropaulasouza.com.br/aluno/login.aspx) será realizada através do [conector-selenium](https://github.com/sigapi/conector-selenium) e a verificação de validade e obtenção dos dados do Token é realizada pelo [módulo de login](https://github.com/sigapi/login).
+Documentação do projeto sigapi
 
 # Sobre
 
