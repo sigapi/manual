@@ -1,0 +1,417 @@
+= sigapi
+Charles Gonçalves Dias; Gabriel Silva de Menezes; Marco Antonio Rocha; Pedro Higor Bastos Werneck; Rafael de Souza Ferreira
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toc-title: Sumário
+:toclevels: 6
+:table-caption!:
+
+== Introdução
+
+Essa API consiste no desenvolvimento de uma API utilizando a arquitetura REST para acesso ao https://www.sigacentropaulasouza.com.br/aluno/login.aspx[SIGA], no perfil *Aluno* e realizando apenas operações de leitura.
+
+O projeto foi desenvolvido durante a disciplina de *Trabalho de Conclusão de Curso* do curso de *Tecnologia em Informática para Negócios* da http://fatecsbc.edu.br/[Fatec São Bernardo do Campo - Adib Moisés Dib], turma *2014/2*.
+
+ifdef::backend-html5[Essa documentação também está disponível para download em http://doc.sigapi.info/index.pdf]
+ifdef::backend-pdf[Essa documentação também está disponível online no enderereço http://doc.sigapi.info]
+
+=== Termos de Uso
+
+A API desenvolvida nesse projeto é um conjunto de serviços orientado a ajudar desenvolvedores que tenham intenção de desenvolver algum sistema interligado ao SIGA, por meio da disponibilização de métodos que retornam informações a respeito do aluno que está forneceu seus dados. A utilização dessa indica a aceitação dos termos de uso abaixo descritos:
+
+==========================
+- O desenvolvedor utilizará esta API respeitando os termos da lei;
+- Essa API deverá apenas ser utilizada com o fim de criar/desenvolver serviços que tenham por objetivo informar seus usuários a respeito da sua prática acadêmica;
+- Essa API não garante a veracidade e corretude dos dados, já que ela apenas retorna o que está sendo exibido no SIGA, estando assim vulnerável a seus erros e problemas. Assim sendo, a equipe do projeto não se responsabiliza por falhas ou inexatidões que possam estar sendo exibidas.
+==========================
+
+=== Licença
+
+Projeto licenciado sob a licença https://opensource.org/licenses/MIT[MIT].
+
+=== Código Fonte
+
+O código fonte está disponível no https://github.com/sigapi[GitHub]
+
+== Autenticação
+
+A autenticação dessa API é realizada externamente, através do servidor OAuth2 desenvolvido especialmente para esse projeto, e utilizando-se do fluxo https://tools.ietf.org/html/rfc6749#section-1.3.1[_Authorization Code_] e um Token JWT.
+
+Por padrão, é disponibilizado um conjunto de dados para que o interessado realize o desenvolvimento da aplicação.
+
+.Dados de acesso
+- *Client ID*: exemplo
+- *Client Secret*: exemplo
+- *Auth URL*: http://login.sigapi.info/oauth/authorize?response_type=code&redirect_uri=http://localhost
+- *Access Token URL*: http://login.sigapi.info/oauth/token?redirect_uri=http://localhost
+- *Tempo de validade do Token*: 30 minutos
+
+TIP: Lembre-se de substituir o parâmetro *redirect_uri* pela URI da sua aplicação
+
+[WARNING]
+====
+Os dados de acesso aqui disponíveis devem ser utilizados apenas em ambiente de desenvolvimento.
+
+Para utilização em uma aplicação em ambiente de produção, crie um ticket no GitHub solicitando as suas credenciais
+====
+
+Cada linguagem ou ferramenta possui métodos para tratar o fluxo de obtenção do Token. Caso necessário, verifique nossos <<Exemplos,exemplos>>.
+
+== Códigos de Retorno
+
+|===
+|Código HTTP|Descrição
+
+|200
+|OK
+
+|403
+|Acesso negado
+
+|404
+|Informação não encontrada
+
+|408
+|Tempo de operação esgotado
+
+|500
+|Erro inesperado
+
+|501
+|Método não implementado
+
+|===
+
+== Serviços
+
+NOTE: Os dados retornados pelos são armazenados temporariamente em um cache local. Nenhum dado do aluno é salvo em nenhum momento.
+
+IMPORTANT: Todas as chamadas são autenticadas, dessa forma o Token de autenticação deve *sempre* ser informado.
+
+<<<
+=== Dados Cadastrais
+
+:caminho: dados-cadastrais
+:descricao: Dados cadastrais, obtidos do perfil do aluno.
+include::template.adoc[]
+
+<<<
+=== Dados de Desempenho
+
+:caminho: dados-desempenho
+:descricao: Dados de desempenho, obtidos do perfil do aluno.
+include::template.adoc[]
+
+<<<
+=== Notas Parciais
+
+Dados obtidos através do link de *Notas Parciais*.
+
+==== Todas
+
+:caminho: notas-parciais
+:descricao: Todas as notas parciais.
+include::template.adoc[]
+
+==== Por Disciplina
+
+:caminho: notas-parciais_por-disciplina
+:descricao: Obtenção das notas parciais de determinada disciplina.
+include::template_com-parametros.adoc[]
+
+<<<
+=== Faltas Parciais
+
+Dados obtidos através do link *Faltas Parciais*.
+
+==== Todas
+
+:caminho: faltas-parciais
+:descricao: Todas as faltas parciais.
+include::template.adoc[]
+
+==== Por Disciplina
+
+:caminho: faltas-parciais_por-disciplina
+:descricao: Obtenção das faltas parciais de determinada disciplina.
+include::template_com-parametros.adoc[]
+
+<<<
+=== Histórico
+
+Dados de histórico de conclusão do curso, obtidos através do link *Histórico Completo*.
+
+WARNING: Serviço ainda não implementado
+
+<<<
+=== Calendário de Provas
+
+Dados do calendário de provas, obtidos através do link *Calendário de Provas*.
+
+WARNING: Serviço ainda não implementado
+
+<<<
+== Exemplos
+
+Abaixo estão alguns exemplos de uso da API.
+
+WARNING: A equipe do projeto é responsável pela manutenção e suporte da API e cada desenvolvedor é responsável pela integração à sua aplicação. Os exemplos abaixo devem ser usados apenas como um ponto de partida.
+
+=== cURL
+
+NOTE: A obtenção do código de autorização deve ser feita diretamente pelo navegador
+
+* Obtenha o código de autorização
+.. Acesse o endereço http://login.sigapi.info/oauth/authorize?client_id=exemplo&redirect_uri=http://localhost&response_type=code
+.. Na tela que se abre, preencha seu usuário e senha e clique no botão *login*
+.. Na tela de autorização, clique no botão *Authorize*
+.. O browser será redirecionado para o _localhost_ e, ao final do endereço, será exibido o código de autorização
+*** http://localhost/?code=*N5JB9h*
+.. Salve o código de autorização obtido
+
+* Obtenha o token de acesso
+.. Faça a requisição para obter o Token
++
+[source,bash]
+----
+$ client_id=exemplo
+$ client_secret=exemplo
+$ authorization_code=N5JB9h
+$ curl -u ${client_id}:${client_secret} -X POST "http://login.sigapi.info/oauth/token?code=${authorization_code}&grant_type=authorization_code&redirect_uri=http://localhost"
+----
++
+.. Verifique o retorno da requisição
++
+[source,json]
+----
+{
+  "jti": "8c2748c6321-39a2-42f6-b68d-709355676fde",
+  "usuario": "L123Q9Ll6UqaIHDX9bNadjYc9NRdvzCtqFHCz4zXmWPnmHl+BpXXTHBvPynBLSs1dyWkl53bHaGN7LLS6eWhTxqMTXIqh7HMPTmc53fzNJ9Gymj9pSZ0mFuCyFa23bbdwoZJag7b3xupeAQCVJbv9VQaGzQyc293DGrPVCV1DyS6mtfJzmzUrEv+B4+bAcbFi1JgctDEpFoCSOKd1sh28DjIBS+OKyq+4LrIu27HE8D9KtwMZZqymajg8Y0vpY3qrrO0tHmpZs+hW9k/PXROS6txGNYtE4/3lY1B6xmCn8F9gLHYLSB6irQ+G2YBPSb6Et2wvo0hWH61R+yrs4DV8QPpA==",
+  "senha": "HtWBEVavdmTv123y/pdXm1fjWYzD47ljEdEYJl8n9VylUFR3/gaI8VAv6QVuHkGpEBiQIvb61k0gGAn/7X7iq787O3BU8k2Cie8fMJXIJV23j+l55WgI6hY85RiFSzN4GFb3NRIUpMFubdWkR7/q05rIXov9w+H4bx2YPfr71DqQ16puwHfZM5BEVMJz8FXGH/SiVInRaPQv/a1zwNmDygBF9jSETgSMzjosh+7ah3UKJVyPGs/t46CeIh9/3SwyqBRtV38U+lg4sOvT+jI20rExe3xnur4s+8jKzM9pZGOjRfdv70s+hC3Mrng3NOmDEu1AFBpd/vw0Nzijz8XZfKyMA==",
+  "scope": "read",
+  "expires_in": 43199,
+  "token_type": "bearer",
+  "access_token": "eyJhbGciOiJSUzI1Ni123IsInR5cCI6IkpXVCJ9.eyJzZW5oYSI6Ikh0V0JFVmF2ZG1UdnkvcGRYbTFmaldZekQ0N2xqRWRFWUpsOG45VnlsVUZSMy9nYUk4VkF2NlFWdUhrR3BFQmlRSXZiNjFrMGdHQW4vN1g3aXE3ODdPM0JVOGsyQ2llOGZNSlhJSlYyM2orbDU1V2dJNmhZODVSaUZTek40R0ZiM05SSVVwTUZ1YmRXa1I3L3EwNXJJWG92OXcrSDRieDJZUGZyNzFEcVExNnB1d0hmWk01QkVWTUp6OEZYR0gvU2lWSW5SYVBRdi9hMXp3Tm1EeWdCRjlqU0VUZ1NNempvc2grN2FoM1VLSlZ5UEdzL3Q0NkNlSWg5LzNTd3lxQlJ0VjM4VStsZzRzT3ZUK2pJMjByRXhlM3hudXI0cys4akt6TTlwWkdPalJmZHY3MHMraEMzTXJuZzNOT21ERXUxQUZCcGQvdncwTnppano4WFpmS3lNQT09IiwidXNlcl9uYW1lIjoiNDQwNDQ3NzIwc3AiLCJzY29wZSI6WyJyZWFkIl0sInVzdWFyaW8iOiJMUTlMbDZVcWFJSERYOWJOYWRqWWM5TlJkdnpDdHFGSEN6NHpYbVdQbm1IbCtCcFhYVEhCdlB5bkJMU3MxZHlXa2w1M2JIYUdON0xMUzZlV2hUeHFNVFhJcWg3SE1QVG1jNTNmek5KOUd5bWo5cFNaMG1GdUN5RmEyM2JiZHdvWkphZzdiM3h1cGVBUUNWSmJ2OVZRYUd6UXljMjkzREdyUFZDVjFEeVM2bXRmSnptelVyRXYrQjQrYkFjYkZpMUpnY3RERXBGb0NTT0tkMXNoMjhEaklCUytPS3lxKzRMckl1MjdIRThEOUt0d01aWnF5bWFqZzhZMHZwWTNxcnJPMHRIbXBacytoVzlrL1BYUk9TNnR4R05ZdEU0LzNsWTFCNnhtQ244RjlnTEhZTFNCNmlyUStHMllCUFNiNkV0Mnd2bzBo132V0g2MVIreXJzNERWOFFQcEE9PSIsImV4cCI6MTQ5Mzg3OTYyMSwianRpIjoiOGMyNzQ4YzYtMzlhMi00MmY2LWI2OGQtNzA5MzU1Njc2ZmRlIiwiY2xpZW50X2lkIjoiZGVtbyJ9.d6UedVr4TLiY0Dl_NrujVSlVbJsOBI7lpR7LbleRontvBfQ7IjE2aWh0UETQwXfA4V2XbAw_3x9PjqtMZR6SkltdbpkqnQ6_GOVpnSaZu1XsSyR4tNLByHpVKblVTq30T4W3VawBPZTH94_rW-4TLTuVdDF0qeqwKiDmDr4-wIU4lbkLnDbyNsNyvKuUcTDiEzj83cOE9r2y_LQj_-Ma44zVIayHLbAMCbE9XwhmzQPUqBTw534aFuXsGu7H3FwmUdYzeJ60LzzWtqwfG8OHoZTJMrTz3ak8eF3o6Ow9LNWhZ4AvBMhEnmqSJOcHYVhndFi8KkJt_g34Iw35N-PEpA"
+}
+----
++
+.. Salve o conteúdo do atributo *access_token*
++
+[source,bash]
+----
+$ access_token="eyJhbGciOiJSUzI1Ni123IsInR5cCI6IkpXVCJ9.eyJzZW5oYSI6Ikh0V0JFVmF2ZG1UdnkvcGRYbTFmaldZekQ0N2xqRWRFWUpsOG45VnlsVUZSMy9nYUk4VkF2NlFWdUhrR3BFQmlRSXZiNjFrMGdHQW4vN1g3aXE3ODdPM0JVOGsyQ2llOGZNSlhJSlYyM2orbDU1V2dJNmhZODVSaUZTek40R0ZiM05SSVVwTUZ1YmRXa1I3L3EwNXJJWG92OXcrSDRieDJZUGZyNzFEcVExNnB1d0hmWk01QkVWTUp6OEZYR0gvU2lWSW5SYVBRdi9hMXp3Tm1EeWdCRjlqU0VUZ1NNempvc2grN2FoM1VLSlZ5UEdzL3Q0NkNlSWg5LzNTd3lxQlJ0VjM4VStsZzRzT3ZUK2pJMjByRXhlM3hudXI0cys4akt6TTlwWkdPalJmZHY3MHMraEMzTXJuZzNOT21ERXUxQUZCcGQvdncwTnppano4WFpmS3lNQT09IiwidXNlcl9uYW1lIjoiNDQwNDQ3NzIwc3AiLCJzY29wZSI6WyJyZWFkIl0sInVzdWFyaW8iOiJMUTlMbDZVcWFJSERYOWJOYWRqWWM5TlJkdnpDdHFGSEN6NHpYbVdQbm1IbCtCcFhYVEhCdlB5bkJMU3MxZHlXa2w1M2JIYUdON0xMUzZlV2hUeHFNVFhJcWg3SE1QVG1jNTNmek5KOUd5bWo5cFNaMG1GdUN5RmEyM2JiZHdvWkphZzdiM3h1cGVBUUNWSmJ2OVZRYUd6UXljMjkzREdyUFZDVjFEeVM2bXRmSnptelVyRXYrQjQrYkFjYkZpMUpnY3RERXBGb0NTT0tkMXNoMjhEaklCUytPS3lxKzRMckl1MjdIRThEOUt0d01aWnF5bWFqZzhZMHZwWTNxcnJPMHRIbXBacytoVzlrL1BYUk9TNnR4R05ZdEU0LzNsWTFCNnhtQ244RjlnTEhZTFNCNmlyUStHMllCUFNiNkV0Mnd2bzBo132V0g2MVIreXJzNERWOFFQcEE9PSIsImV4cCI6MTQ5Mzg3OTYyMSwianRpIjoiOGMyNzQ4YzYtMzlhMi00MmY2LWI2OGQtNzA5MzU1Njc2ZmRlIiwiY2xpZW50X2lkIjoiZGVtbyJ9.d6UedVr4TLiY0Dl_NrujVSlVbJsOBI7lpR7LbleRontvBfQ7IjE2aWh0UETQwXfA4V2XbAw_3x9PjqtMZR6SkltdbpkqnQ6_GOVpnSaZu1XsSyR4tNLByHpVKblVTq30T4W3VawBPZTH94_rW-4TLTuVdDF0qeqwKiDmDr4-wIU4lbkLnDbyNsNyvKuUcTDiEzj83cOE9r2y_LQj_-Ma44zVIayHLbAMCbE9XwhmzQPUqBTw534aFuXsGu7H3FwmUdYzeJ60LzzWtqwfG8OHoZTJMrTz3ak8eF3o6Ow9LNWhZ4AvBMhEnmqSJOcHYVhndFi8KkJt_g34Iw35N-PEpA"
+----
++
+
+* Realize a consulta na API
+.. Faça a consulta
++
+[source,bash]
+----
+$ curl -X GET -H "Authorization: Bearer ${access_token}" http://api.sigapi.info/api/dados-cadastrais
+----
++
+.. Verifique o resultado
++
+[source,json]
+----
+{
+  "nome": "Juca da Silva",
+  "foto": "https://sigacentropaulasouza.com.br/imagem/Z33YVAVR4NXTBKX8UJL6X9KMN35SR5.TMB.JPG",
+  "ra": "98657842147",
+  "instituicao": "Faculdade de Tecnologia de São Bernardo do Campo \"Adib Moises Dib\"",
+  "curso": "Tecnologia em Informática para Negócios",
+  "turno": "Noturno",
+  "emailFatec": "nome.sobrenome@fatec.sp.gov.br",
+  "emailWebsai": "nome.sobrenome@gmail.com",
+  "emailPreferencial": "nome.sobrenome@gmail.com",
+  "outrosEmails": [
+    "nome.sobrenome@outlook.com",
+    "nome.sobrenome@yahoo.com.br"
+  ]
+}
+----
+
+<<<
+=== Postman
+
+. Crie uma nova requisição
+** *Método*: GET
+** *URL*: http://api.sigapi.info/api/dados-cadastrais
+. Configure a autenticação para obter o token
+.. Clique na aba *Authentication*
+.. Selecione o valor *OAuth 2.0* no campo *Type*
+.. Clique no botão *Get New Access Token*
+.. Preencha os dados solicitados
+*** *Token Name*: sigapi token
+*** *Auth URL*: http://login.sigapi.info/oauth/authorize?client_id=exemplo&redirect_uri=https://www.getpostman.com/oauth2/callback&response_type=code
+*** *Access Token URL*: http://login.sigapi.info/oauth/token?redirect_uri=https://www.getpostman.com/oauth2/callback
+*** *Client ID*: exemplo
+*** *Client Secret*: exemplo
+*** *Grant Type*: Authorization Code
+.. Clique no botão *Request Token*
+... Na tela que se abre, preencha seu usuário e senha e clique no botão *login*
+**** Aguarde uns instantes, pois o Postman não exibe nenhuma informação de que a tela está sendo carregada
+... Na tela de autorização, clique no botão *Authorize*
+. Configure a requisição para utilizar o token obtido
+.. Clique na linha referente ao token chamado *sigapi token*
+.. No lado direito, realize a configuração
+*** No campo *Add token to* selecione o valor *Header*
+*** Clique no botão *User Token*
+. Realize a requisição
+.. Clique no botão *Send*, localizado no canto superior direito
+. Verifique o resultado
+.. Na parte inferior da janela será exibido o JSON de retorno
+
+
+<<<
+=== Spring Boot
+
+NOTE: O exemplo a seguir demonstra apenas a configuração do uso da API em um projeto já existente e funcionando
+
+* Adicione as dependências para uso do https://projects.spring.io/spring-security-oauth/[Spring Security OAuth]
+.. Maven
++
+[source,xml]
+----
+<dependency>
+    <groupId>org.springframework.security.oauth</groupId>
+    <artifactId>spring-security-oauth2</artifactId>
+</dependency>
+----
++
+
+* Habilite o cliente oauth2 adicionando a anotação `@EnableOAuth2Client` em qualquer classe de configuração
+
+* Crie um `Bean` configurando o `RestTemplate` a ser utilizado
++
+[source,java]
+----
+@Bean
+public RestTemplate restTemplate(final OAuth2ClientContext context) {
+
+    final AuthorizationCodeResourceDetails resource = new AuthorizationCodeResourceDetails();
+    resource.setClientId("exemplo");
+    resource.setClientSecret("exemplo");
+    resource.setAccessTokenUri("http://login.sigapi.info/oauth/token");
+    resource.setUserAuthorizationUri("http://login.sigapi.info/oauth/authorize");
+
+    return new OAuth2RestTemplate(resource, context);
+
+}
+----
++
+
+* Injete o `RestTemplate` na classe onde irá utilizá-lo
++
+[source,java]
+----
+@Autowired
+private RestTemplate restTemplate;
+----
++
+
+* Realize a chamada ao serviço desejado
++
+[source,java]
+----
+public void metodo() {
+
+    final JsonNode dadosCadastrais = restTemplate.getForObject("http://api.sigapi.info/api/dados-cadastrais", JsonNode.class);
+
+}
+----
++
+
+
+<<<
+=== PHP
+
+TIP: O exemplo a seguir demonstra um fluxo completo de autorização, obtenção do token e obtenção dos dados cadastrais. Só copiar, colar e usar
+
+[source,php]
+----
+<?php
+
+session_start();
+
+$accessToken = null;
+if(!empty($_SESSION['accessToken'])) {
+    $accessToken = $_SESSION["accessToken"];
+}
+
+// Verifica se possui o token de acesso
+if ($accessToken) {
+
+    // Já possui o token, irá requisitar os dados cadastrais
+    $process = curl_init();
+    curl_setopt($process, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($process, CURLOPT_TIMEOUT, 120);
+    curl_setopt($process, CURLOPT_URL, "http://api.sigapi.info/api/dados-cadastrais");
+    curl_setopt($process, CURLOPT_HTTPHEADER, array("Authorization: Bearer $accessToken"));
+    $result = curl_exec($process);
+    $resultCode = curl_getinfo($process, CURLINFO_HTTP_CODE);
+    curl_close($process);
+    $jsonResult = json_decode($result);
+
+    if ($resultCode == "200") {
+        echo "Nome: $jsonResult->nome <br>";
+        echo "RA: $jsonResult->ra <br>";
+        echo "Instituição: $jsonResult->instituicao <br>";
+        echo "Curso: $jsonResult->curso <br>";
+    } else {
+        echo "Ocorreu um erro ao acessar a API: $resultCode / $jsonResult->mensagem";
+    }
+
+} else {
+
+    // URL atual
+    $currentUrl = strtok("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", "?");
+
+    // Verifica se possui o código de autorização
+    $authorizationCode = $_GET["code"];
+    if ($authorizationCode) {
+
+        // Irá obter o token de acesso
+        $accessTokenUrl = "http://login.sigapi.info/oauth/token?code=$authorizationCode&grant_type=authorization_code&redirect_uri=$currentUrl";
+
+        $process = curl_init();
+        curl_setopt($process, CURLOPT_POST, 1);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($process, CURLOPT_TIMEOUT, 120);
+        curl_setopt($process, CURLOPT_URL, $accessTokenUrl);
+        curl_setopt($process, CURLOPT_USERPWD, "exemplo:exemplo");
+        $result = curl_exec($process);
+        curl_close($process);
+        $jsonResult = json_decode($result);
+
+        if ($jsonResult) {
+
+            if(!empty($jsonResult->error)) {
+                echo "Houve um erro obtendo o Token: $jsonResult->error ($jsonResult->error_description)";
+            } else {
+
+                // Salva o token na sessão e recarrega a página, para reiniciar o processamento
+                $_SESSION['accessToken'] = $jsonResult->access_token;
+                header("Location: $currentUrl");
+
+            }
+
+        } else {
+            echo "Ocorreu algum erro ao tentar obter o token de acesso";
+        }
+
+    } else {
+
+        // Como não possui o código de autorização, redireciona para que o usuário possa se conectar
+        $authorizationUrl = "http://login.sigapi.info/oauth/authorize?client_id=exemplo&redirect_uri=$currentUrl&response_type=code";
+        header("Location: $authorizationUrl");
+
+    }
+
+}
+
+?>
+----

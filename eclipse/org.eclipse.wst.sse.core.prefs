@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+task-tags/enabled=true
+task-tags/ignored-contentTypes=org.eclipse.core.runtime.xml,org.eclipse.wst.dtd.core.dtdsource
+task-tags/use-project-settings=true

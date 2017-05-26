@@ -1,0 +1,101 @@
+[
+  {
+    "siglaDisciplina": "AGO007",
+    "nomeDisciplina": "Gestão e Operação por Processos",
+    "avaliacoes": {
+      "Avaliação Oficial - P3": 0,
+      "Trabalho": 0,
+      "Avaliação Oficial - P1": 9,
+      "Avaliação Oficial - P2": 0
+    },
+    "mediaFinal": 2.8,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "IMH002",
+    "nomeDisciplina": "Multimídia e Hipermídia",
+    "avaliacoes": {
+      "Avaliação Oficial - P3": 0,
+      "Trabalho": 10,
+      "Avaliação Oficial - P1": 8.5,
+      "Avaliação Oficial - P2": 0
+    },
+    "mediaFinal": 4.7,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "ISA001",
+    "nomeDisciplina": "Fundamentos de Auditoria",
+    "avaliacoes": {
+      "Avaliação Oficial - P3": 0,
+      "Trabalho": 0,
+      "Avaliação Oficial - P1": 8,
+      "Avaliação Oficial - P2": 0
+    },
+    "mediaFinal": 2.5,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "ISJ002",
+    "nomeDisciplina": "Sistemas de Gestão de Produção e Logística",
+    "avaliacoes": {
+      "Trabalho": 0,
+      "Avaliação Oficial - P3": 0,
+      "Avaliação Oficial - P1": 8,
+      "Avaliação Oficial - P2": 0
+    },
+    "mediaFinal": 2.5,
+    "quantidadeFaltas": 8,
+    "percentualFrequencia": 90
+  },
+  {
+    "siglaDisciplina": "ITI104",
+    "nomeDisciplina": "Governança em Tecnologia da Informação",
+    "avaliacoes": {
+      "Avaliação Oficial - P3": 0,
+      "Trabalho": 0,
+      "Avaliação Oficial - P1": 8.5,
+      "Avaliação Oficial - P2": 0
+    },
+    "mediaFinal": 2.7,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "LIN600",
+    "nomeDisciplina": "Inglês VI",
+    "avaliacoes": {},
+    "mediaFinal": 0,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "TES001",
+    "nomeDisciplina": "Estágio Supervisionado",
+    "avaliacoes": {
+      "Relatório de Estágio Supervisionado": 0
+    },
+    "mediaFinal": 3,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "TTG103",
+    "nomeDisciplina": "Trabalho de Graduação II",
+    "avaliacoes": {},
+    "mediaFinal": 0,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  },
+  {
+    "siglaDisciplina": "TTG202",
+    "nomeDisciplina": "Projeto de Trabalho de Graduação",
+    "avaliacoes": {},
+    "mediaFinal": 0,
+    "quantidadeFaltas": 0,
+    "percentualFrequencia": 0
+  }
+]

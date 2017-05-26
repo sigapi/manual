@@ -1,0 +1,13 @@
+{descricao}
+
+.Requisição cURL
+include::{snippets}/{caminho}/curl-request.adoc[]
+
+.Requisição HTTP
+include::{snippets}/{caminho}/http-request.adoc[]
+
+.Resposta
+include::{snippets}/{caminho}/http-response.adoc[]
+
+.Descrição da Resposta
+include::{snippets}/{caminho}/response-fields.adoc[]

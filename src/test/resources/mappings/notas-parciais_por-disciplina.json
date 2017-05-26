@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/api/notas-parciais/AGO007"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "notas-parciais_por-disciplina.json",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

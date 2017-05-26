@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/api/notas-parciais"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "notas-parciais.json",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

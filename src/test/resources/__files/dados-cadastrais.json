@@ -1,0 +1,15 @@
+{
+  "nome": "Juca da Silva",
+  "foto": "https://sigacentropaulasouza.com.br/imagem/Z33YVAVR4NXTBKX8UJL6X9KMN35SR5.TMB.JPG",
+  "ra": "98657842147",
+  "instituicao": "Faculdade de Tecnologia de São Bernardo do Campo \"Adib Moises Dib\"",
+  "curso": "Tecnologia em Informática para Negócios",
+  "turno": "Noturno",
+  "emailFatec": "nome.sobrenome@fatec.sp.gov.br",
+  "emailWebsai": "nome.sobrenome@gmail.com",
+  "emailPreferencial": "nome.sobrenome@gmail.com",
+  "outrosEmails": [
+    "nome.sobrenome@outlook.com",
+    "nome.sobrenome@yahoo.com.br"
+  ]
+}

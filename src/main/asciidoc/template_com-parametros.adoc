@@ -1,0 +1,6 @@
+{descricao}
+
+.Parâmetros
+include::{snippets}/{caminho}/path-parameters.adoc[]
+
+include::template.adoc[]

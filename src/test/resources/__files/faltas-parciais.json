@@ -1,0 +1,32 @@
+[
+  {
+    "siglaDisciplina": "IMH002",
+    "nomeDisciplina": "Multimídia e Hipermídia",
+    "quantidadeAusencias": 16,
+    "quantidadePresencas": 36
+  },
+  {
+    "siglaDisciplina": "ISA001",
+    "nomeDisciplina": "Fundamentos de Auditoria",
+    "quantidadeAusencias": 10,
+    "quantidadePresencas": 14
+  },
+  {
+    "siglaDisciplina": "ITI104",
+    "nomeDisciplina": "Governança em Tecnologia da Informação",
+    "quantidadeAusencias": 5,
+    "quantidadePresencas": 21
+  },
+  {
+    "siglaDisciplina": "TES001",
+    "nomeDisciplina": "Estágio Supervisionado",
+    "quantidadeAusencias": 0,
+    "quantidadePresencas": 0
+  },
+  {
+    "siglaDisciplina": "TTG202",
+    "nomeDisciplina": "Projeto de Trabalho de Graduação",
+    "quantidadeAusencias": 0,
+    "quantidadePresencas": 18
+  }
+]
